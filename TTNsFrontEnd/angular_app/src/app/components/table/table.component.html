@@ -1,0 +1,18 @@
+<div *ngIf="isLoaded">
+    <p>{{tableName}} is here!</p>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let column of columns">{{column}}</th>
+            </tr>
+        </thead>
+        <tbody class="overflowY">
+            <!-- <tr *ngFor="let dataRow of data">
+                <td *ngFor="let dataValue of dataRow">{{dataValue}}</td>
+            </tr> There is an error because of object type have no enumerator-->
+        </tbody>
+    </table>
+</div>
+<div *ngIf="!isLoaded">
+    <p>{{tableName}} haven't loaded yet.</p>
+</div>
