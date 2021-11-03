@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TableService } from './services/table.service';
-import { ZttnTableViewModel } from './viewModels/table/ZttnTableViewModel';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,7 @@ export class AppComponent implements OnInit {
   constructor(private tableService: TableService) { }
 
   ngOnInit(): void {
-    this.tableService.getZttns(false).subscribe((response: ZttnTableViewModel[]) => {
+    this.tableService.getZttns(false).subscribe((response: any[]) => {
       this.zttnData = response
         .map((row) => {
           return Object.values(row);
