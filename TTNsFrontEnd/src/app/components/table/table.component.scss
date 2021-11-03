@@ -2,16 +2,21 @@ table {
   border-spacing: 0;
   border: 1px solid black;
   white-space: nowrap;
+  text-align: left;
+  position: relative;
+  border-collapse: collapse;
 }
 
-th {
-  margin: 0;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-  background: #afd792;
-  color: #333;
+thead {
+  th {
+    margin: 0;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    background: #afd792;
+    color: #333;
+  }
 }
 
 tbody {
@@ -21,22 +26,24 @@ tbody {
       color: rgb(0, 0, 0);
     }
   }
+
+  td {
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+    padding-right: 0.1rem;
+    padding-left: 0.1rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+  }
 }
 
-td {
-  font-size: 13px;
-  text-align: center;
-  margin: 0;
-  padding-right: 0.1rem;
-  padding-left: 0.1rem;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-}
-
-.overflowY {
-  position: relative;
-  float: left;
-  display: block;
+.fixedTableHeader {
   overflow-y: scroll;
   height: 25rem;
+
+  thead th {
+    position: sticky;
+    top: 0;
+  }
 }
