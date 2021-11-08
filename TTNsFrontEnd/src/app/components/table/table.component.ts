@@ -1,4 +1,3 @@
-import { NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 
