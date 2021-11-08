@@ -28,12 +28,12 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all")]
-        public async Task<ActionResult<IEnumerable<SttnDTO>>> GetAll()
+        [HttpGet("get-all/{includeDeleted?}")]
+        public async Task<ActionResult<IEnumerable<SttnDTO>>> GetAll(bool includeDeleted = false)
         {
             try
             {
-                var sttns = await _unitOfWork.STTNs.GetAll();
+                var sttns = await _unitOfWork.STTNs.GetAll(includeDeleted);
                 var result = _mapper.Map<IEnumerable<SttnDTO>>(sttns);
                 return Ok(result);
             }

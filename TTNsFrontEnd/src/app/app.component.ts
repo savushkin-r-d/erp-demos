@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SttnTable } from "./classes/SttnTable";
+import { ZttnTable } from "./classes/ZttnTable";
 import { TableService } from './services/table.service';
 
 @Component({
@@ -9,44 +11,28 @@ import { TableService } from './services/table.service';
 
 export class AppComponent implements OnInit {
   title = 'app';
-  zttnTableName = "ZTTN";
-  sttnTableName = "STTN";
+  zttn: ZttnTable;
+  sttn: SttnTable;
 
-  zttnColumns: string[] = [];
-  zttnData: any[] = [];
+  constructor(private tableService: TableService) {
+    this.zttn = new ZttnTable(tableService);
+    this.sttn = new SttnTable(tableService);
+  }
 
-  sttnColumns: string[] = [];
-  sttnData: any[] = [];
+  reloadRecords(): void {
+    this.zttn.toggle();
+    this.zttn.loadAll();
 
-  constructor(private tableService: TableService) { }
+    this.sttn.toggle();
+    this.sttn.loadBySysn(this.sttn._loadedSysn);
+  }
 
   ngOnInit(): void {
-    this.initZttns();
+    this.zttn.loadAll();
   }
 
-  getObjectValues(obj: any[]) : any[] {
-    return obj.map((row) => {
-      return Object.values(row);
-    })
-  }
-
-  getObjectKeys(obj: any[]) : string[] {
-    return Object.keys(obj).map((value) => {
-          return value.toUpperCase();
-        });
-  }
-
-  initZttns(): void {
-    this.tableService.getZttns(false).subscribe((response: any[]) => {
-      this.zttnData = this.getObjectValues(response);
-      this.zttnColumns = this.getObjectKeys(response[0]);
-    });
-  }
-
-  loadSttnBySysn(sysn: number): void {
-    this.tableService.getSttnsBySysn(sysn).subscribe((response: any[]) => {
-      this.sttnData = this.getObjectValues(response);
-      this.sttnColumns = this.getObjectKeys(response[0]);
-    });
+  loadSttnsByZttnSysn(rowId: number): void {
+    var sysn = this.zttn.getSysnByRowId(rowId);
+    this.sttn.loadBySysn(sysn);
   }
 }

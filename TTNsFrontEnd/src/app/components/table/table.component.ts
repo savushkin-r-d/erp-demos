@@ -1,3 +1,4 @@
+import { NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 
@@ -10,39 +11,39 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableName!: string;
   @Input() columns!: string[];
   @Input() data!: any[];
-  @Output() onRowClick: EventEmitter<any> = new EventEmitter();
+  @Output() onRowClick: EventEmitter<number>;
+  @Output() onChangedToggle: EventEmitter<boolean>;
+  @Output() onRowDelete: EventEmitter<number>
 
-  isLoaded = false;
+  showDeleted: boolean;
+  isLoaded: boolean;
+
   constructor() {
     this.columns = [];
     this.data = [];
+    this.showDeleted = false;
+    this.isLoaded = false;
+    this.onRowClick = new EventEmitter();
+    this.onChangedToggle = new EventEmitter();
+    this.onRowDelete =new EventEmitter();
+  }
+
+  toggle(): void {
+    this.showDeleted = !this.showDeleted;
+    this.onChangedToggle.emit(this.showDeleted);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.isLoaded = this.checkDataLoading(this.columns, this.data);
+    this.checkDataLoading(this.columns, this.data);
   }
 
   ngOnInit(): void {
-    this.isLoaded = this.checkDataLoading(this.columns, this.data);
+    this.checkDataLoading(this.columns, this.data);
   }
 
-  checkDataLoading(columns: string[], data: any[]): any {
-    if (columns.length > 0 && data.length > 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  getSysn(rowId: number): void {
-    var rowData = this.data[rowId];
-    var sysnIndex = this.columns.indexOf("SYSN");
-    var findSysn = sysnIndex >= 0;
-    if (findSysn) {
-      var sysn = rowData[sysnIndex];
-      this.raiseOnRowClick(sysn);
-    }
+  checkDataLoading(columns: string[], data: any[]): void {
+    var tableIsNotEmpty = columns.length > 0 && data.length > 0;
+    this.isLoaded = tableIsNotEmpty;;
   }
 
   raiseOnRowClick(value: any): void {

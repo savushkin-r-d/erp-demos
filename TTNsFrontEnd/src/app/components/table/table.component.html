@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody class="overflowY">
-                <tr (click)="getSysn(rowId)" *ngFor="let dataRow of data; let rowId = index" [attr.id] = rowId>
+                <tr (click)="raiseOnRowClick(rowId)" *ngFor="let dataRow of data; let rowId = index" [attr.id] = rowId>
                     <td *ngFor="let dataValue of dataRow">{{dataValue}}</td>
                 </tr>
             </tbody>
@@ -16,5 +16,5 @@
     </div>
 </div>
 <div *ngIf="!isLoaded">
-    <p>{{tableName}} haven't loaded yet.</p>
+    <p>{{tableName}} right now is empty or haven't loaded yet.</p>
 </div>

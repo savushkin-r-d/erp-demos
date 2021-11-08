@@ -17,22 +17,15 @@ export class TableService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getZttns(showDeleted: boolean): Observable<any[]> {
-    var data = null;
-
+  getZttns(showDeleted: boolean = false): Observable<any[]> {
     var api = this.rest_api + "/zttn/get-all";
-    if (showDeleted) {
-      data = this.httpClient.get<any[]>(api + "/" + showDeleted);
-    }
-    else {
-      data = this.httpClient.get<any[]>(api);
-    }
-
+    var data = this.httpClient.get<any[]>(api + "/" + showDeleted);
     return data;
   }
 
-  getSttnsBySysn(sysn: number): Observable<any[]> {
-    var data = this.httpClient.get<any[]>(this.rest_api + "/sttn/get-by-sysn/" + sysn);
+  getSttnsBySysn(sysn: number, showDeleted: boolean = false): Observable<any[]> {
+    var api = this.rest_api + "/sttn/get-by-sysn/" + sysn;
+    var data = this.httpClient.get<any[]>(api + "/" + showDeleted);
     return data;
   }
 }
