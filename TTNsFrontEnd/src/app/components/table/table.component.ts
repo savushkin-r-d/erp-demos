@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -9,6 +10,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableName!: string;
   @Input() columns!: string[];
   @Input() data!: any[];
+  @Output() onRowClick: EventEmitter<any> = new EventEmitter();
 
   isLoaded = false;
   constructor() {
@@ -31,5 +33,19 @@ export class TableComponent implements OnInit, OnChanges {
     else {
       return false;
     }
+  }
+
+  getSysn(rowId: number): void {
+    var rowData = this.data[rowId];
+    var sysnIndex = this.columns.indexOf("SYSN");
+    var findSysn = sysnIndex >= 0;
+    if (findSysn) {
+      var sysn = rowData[sysnIndex];
+      this.raiseOnRowClick(sysn);
+    }
+  }
+
+  raiseOnRowClick(value: any): void {
+    this.onRowClick.emit(value);
   }
 }

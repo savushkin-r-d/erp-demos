@@ -15,18 +15,38 @@ export class AppComponent implements OnInit {
   zttnColumns: string[] = [];
   zttnData: any[] = [];
 
+  sttnColumns: string[] = [];
+  sttnData: any[] = [];
+
   constructor(private tableService: TableService) { }
 
   ngOnInit(): void {
-    this.tableService.getZttns(false).subscribe((response: any[]) => {
-      this.zttnData = response
-        .map((row) => {
-          return Object.values(row);
-        });
-      this.zttnColumns = Object.keys(response[0])
-        .map((value) => {
+    this.initZttns();
+  }
+
+  getObjectValues(obj: any[]) : any[] {
+    return obj.map((row) => {
+      return Object.values(row);
+    })
+  }
+
+  getObjectKeys(obj: any[]) : string[] {
+    return Object.keys(obj).map((value) => {
           return value.toUpperCase();
         });
+  }
+
+  initZttns(): void {
+    this.tableService.getZttns(false).subscribe((response: any[]) => {
+      this.zttnData = this.getObjectValues(response);
+      this.zttnColumns = this.getObjectKeys(response[0]);
+    });
+  }
+
+  loadSttnBySysn(sysn: number): void {
+    this.tableService.getSttnsBySysn(sysn).subscribe((response: any[]) => {
+      this.sttnData = this.getObjectValues(response);
+      this.sttnColumns = this.getObjectKeys(response[0]);
     });
   }
 }

@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody class="overflowY">
-                <tr *ngFor="let dataRow of data">
+                <tr (click)="getSysn(rowId)" *ngFor="let dataRow of data; let rowId = index" [attr.id] = rowId>
                     <td *ngFor="let dataValue of dataRow">{{dataValue}}</td>
                 </tr>
             </tbody>
