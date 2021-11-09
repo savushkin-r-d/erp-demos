@@ -1,4 +1,3 @@
-using System;
 using API.Mapping;
 using AutoMapper;
 using Domain;

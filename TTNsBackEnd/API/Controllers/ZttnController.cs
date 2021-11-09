@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Domain;
 using DataAccess.EFCore.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
 using AutoMapper;
-using System.Collections.Generic;
 using API.Exceptions;
 using API.DTO;
 

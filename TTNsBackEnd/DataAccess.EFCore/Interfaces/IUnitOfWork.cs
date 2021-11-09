@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 
 namespace DataAccess.EFCore.Interfaces
 {

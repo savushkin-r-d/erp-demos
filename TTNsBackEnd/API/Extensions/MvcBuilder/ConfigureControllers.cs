@@ -1,5 +1,4 @@
 using FluentValidation.AspNetCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions.MvcBuilder
 {
@@ -13,7 +12,7 @@ namespace API.Extensions.MvcBuilder
                })
                .AddFluentValidation(opt =>
                {
-                   opt.RegisterValidatorsFromAssemblyContaining<Startup>();
+                   opt.RegisterValidatorsFromAssemblyContaining<Program>();
                    opt.LocalizationEnabled = false;
                });
 

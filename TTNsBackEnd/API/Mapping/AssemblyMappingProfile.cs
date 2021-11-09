@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace API.Mapping
@@ -20,7 +18,7 @@ namespace API.Mapping
                         i.GetGenericTypeDefinition() == typeof(IMapWith<>)))
                 .ToList();
 
-            foreach(var type in types)
+            foreach (var type in types)
             {
                 var instance = Activator.CreateInstance(type);
                 var methodInfo = type.GetMethod("Mapping");

@@ -1,7 +1,5 @@
 ﻿using DataAccess.EFCore.Interfaces;
 using Domain;
-using System;
-using System.Threading.Tasks;
 
 namespace DataAccess.EFCore.Repositories
 {

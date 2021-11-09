@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using API.Mapping;
+﻿using API.Mapping;
 using AutoMapper;
 using Domain;
 

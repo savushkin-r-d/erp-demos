@@ -1,6 +1,3 @@
-
-using System;
-
 namespace API.Exceptions
 {
     public class InternalServerErrorException : Exception

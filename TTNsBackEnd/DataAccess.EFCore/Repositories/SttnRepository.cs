@@ -1,9 +1,6 @@
 using DataAccess.EFCore.Interfaces;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataAccess.EFCore.Repositories
 {
@@ -27,7 +24,7 @@ namespace DataAccess.EFCore.Repositories
         public async Task RemoveBySysn(int sysn)
         {
             var entities = await GetBySysn(sysn, false);
-            foreach(var entity in entities)
+            foreach (var entity in entities)
             {
                 entity.F_DEL = 1;
             }

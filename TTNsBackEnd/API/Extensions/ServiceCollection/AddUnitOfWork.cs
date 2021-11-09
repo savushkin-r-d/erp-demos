@@ -1,9 +1,7 @@
-using Microsoft.Extensions.Configuration;
 using DataAccess.EFCore;
 using DataAccess.EFCore.Interfaces;
 using DataAccess.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions.ServiceCollection
 {
