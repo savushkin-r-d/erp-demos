@@ -34,11 +34,16 @@ namespace DataAccess.EFCore.Repositories
         {
             if (includeDeleted)
             {
-                return await _dbSet.ToListAsync();
+                return await _dbSet
+                    .OrderByDescending(x => x.F_ID)
+                    .ToListAsync();
             }
             else
             {
-                return await _dbSet.Where(x => x.F_DEL == 0).ToListAsync();
+                return await _dbSet
+                    .Where(x => x.F_DEL == 0)
+                    .OrderByDescending(x => x.F_ID)
+                    .ToListAsync();
             }
         }
 

@@ -58,6 +58,7 @@ export class TableComponent implements OnInit, OnChanges {
     var unselectRow = this.selectedRow == rowId;
     if (unselectRow) {
       this.resetSelectedRow();
+      return;
     }
     else {
       this.selectedRow = rowId;

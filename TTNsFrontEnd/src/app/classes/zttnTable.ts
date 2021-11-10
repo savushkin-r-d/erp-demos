@@ -24,7 +24,7 @@ export class ZttnTable extends BaseTable {
             return StaticHelper.resetSysnValue;
         }
 
-        var sysnCol = this._columns.indexOf("SYSN");
+        var sysnCol = this._columns.indexOf("sysn");
         if (sysnCol >= StaticHelper.minColumnId) {
             var row = this._data[rowId];
             return row[sysnCol];
@@ -39,7 +39,7 @@ export class ZttnTable extends BaseTable {
         var correctRowId = rowId >= StaticHelper.minRowId;
         if (correctRowId) {
             var row = this._data[rowId];
-            var indexOfFId = this._columns.indexOf("F_ID");
+            var indexOfFId = this._columns.indexOf("f_ID");
             var fId = row[indexOfFId];
             this._tableService.removeFromZttnByFId(fId).subscribe({
                 next: data => {
