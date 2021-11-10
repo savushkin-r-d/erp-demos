@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ZttnTableViewModel } from '../classes/viewModels/zttnTableViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +12,33 @@ export class TableService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-type' : 'application/json',
     })
   }
 
   constructor(private httpClient: HttpClient) { }
 
-  getZttns(showDeleted: boolean = false): Observable<any[]> {
+  getZttns(showDeleted: boolean = false): Observable<ZttnTableViewModel[]> {
     var api = this.rest_api + "/zttn/get-all";
-    var data = this.httpClient.get<any[]>(api + "/" + showDeleted);
+    var data = this.httpClient.get<ZttnTableViewModel[]>(api + "/" + showDeleted, this.httpOptions);
     return data;
   }
 
   getSttnsBySysn(sysn: number, showDeleted: boolean = false): Observable<any[]> {
     var api = this.rest_api + "/sttn/get-by-sysn/" + sysn;
-    var data = this.httpClient.get<any[]>(api + "/" + showDeleted);
+    var data = this.httpClient.get<any[]>(api + "/" + showDeleted, this.httpOptions);
+    return data;
+  }
+
+  removeFromZttnByFId(fId: number): Observable<any[]> {
+    var api = this.rest_api + "/zttn/delete/" + fId;
+    var data = this.httpClient.delete<any[]>(api, this.httpOptions);
+    return data;
+  }
+
+  removeFromSttnByFId(fId: number): Observable<any[]> {
+    var api = this.rest_api + "/sttn/delete/" + fId;
+    var data = this.httpClient.delete<any[]>(api, this.httpOptions);
     return data;
   }
 }

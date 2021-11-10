@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SttnTable } from "./classes/SttnTable";
-import { ZttnTable } from "./classes/ZttnTable";
+import { SttnTable } from "./classes/sttnTable";
+import { ZttnTable } from "./classes/zttnTable";
 import { TableService } from './services/table.service';
 
 @Component({
@@ -19,11 +19,15 @@ export class AppComponent implements OnInit {
     this.sttn = new SttnTable(tableService);
   }
 
-  reloadRecords(): void {
+  toggleRecords(): void {
     this.zttn.toggle();
-    this.zttn.loadAll();
-
     this.sttn.toggle();
+
+    this.reloadRecords();
+  }
+
+  reloadRecords(): void {
+    this.zttn.loadAll();
     this.sttn.loadBySysn(this.sttn._loadedSysn);
   }
 

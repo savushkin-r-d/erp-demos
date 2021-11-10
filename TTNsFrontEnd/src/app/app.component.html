@@ -1,13 +1,15 @@
 <p>Welcome to two tables communication demo.</p>
 
-<input (click)="reloadRecords()" type="checkbox" value="showDeleted"> Show deleted records
+<input (click)="toggleRecords()" type="checkbox" value="showDeleted"> Show deleted records
 <app-table
     (onRowClick)="loadSttnsByZttnSysn($event)"
+    (onRowDelete)="zttn.removeByRowId($event)"
     [tableName]="zttn._tableName"
     [data]="zttn._data"
     [columns]="zttn._columns">
 </app-table>
 <app-table
+    (onRowDelete)="sttn.removeByRowId($event)"
     [tableName]="sttn._tableName"
     [data]="sttn._data"
     [columns]="sttn._columns">

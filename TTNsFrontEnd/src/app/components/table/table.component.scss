@@ -25,6 +25,14 @@ tbody {
       background: #ffc64b93;
       color: rgb(0, 0, 0);
     }
+
+    &.deleted {
+      background: rgb(255, 0, 0);
+    }
+
+    &.highlighted {
+      background: rgba(0, 185, 71, 0.664);
+    }
   }
 
   td {
@@ -40,10 +48,27 @@ tbody {
 
 .fixedTableHeader {
   overflow-y: scroll;
-  height: 25rem;
+  height: 23rem;
 
   thead th {
     position: sticky;
     top: 0;
   }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.crudButton {
+  padding: 0.2rem;
+}
+
+.crudButtonsDiv {
+  float: left;
+}
+
+.tableNameText {
+  text-align: center;
+  margin: 0.5rem;
 }

@@ -1,14 +1,23 @@
 <div *ngIf="isLoaded">
-    <p>{{tableName}} is here!</p>
-    <div class="fixedTableHeader">
+    <p [ngClass]="'tableNameText'">{{tableName}} is here!</p>
+    <div [class.hidden]="selectedRow < 0">
+        <div  [ngClass]="['crudButton', 'crudButtonsDiv']"><button (click)="deleteSelectedRow($event)">Delete</button></div>
+        <div [ngClass]="['crudButton', 'crudButtonsDiv']"><button>Update</button></div>
+        <div [ngClass]="'crudButton'"><button>Create</button></div>
+    </div>
+    <div [ngClass]="'fixedTableHeader'">
         <table >
-            <thead class="fixHeader">
+            <thead [ngClass]="'fixHeader'">
                 <tr>
                     <th *ngFor="let column of columns">{{column}}</th>
                 </tr>
             </thead>
-            <tbody class="overflowY">
-                <tr (click)="raiseOnRowClick(rowId)" *ngFor="let dataRow of data; let rowId = index" [attr.id] = rowId>
+            <tbody [ngClass]="'overflowY'">
+                <tr (click)="raiseOnRowClick($event, rowId)"
+                    [class.highlighted]="this.selectedRow == rowId"
+                    [class.deleted]=""
+                    *ngFor="let dataRow of data; let rowId = index"
+                    [attr.id] = rowId>
                     <td *ngFor="let dataValue of dataRow">{{dataValue}}</td>
                 </tr>
             </tbody>
@@ -16,5 +25,5 @@
     </div>
 </div>
 <div *ngIf="!isLoaded">
-    <p>{{tableName}} right now is empty or haven't loaded yet.</p>
+    <p [ngClass]="'tableNameText'">{{tableName}} right now is empty or haven't loaded yet.</p>
 </div>
