@@ -42,9 +42,7 @@ export class BaseTable {
     }
 
     getObjectKeys(obj: any[]): string[] {
-        return Object.keys(obj).map((value) => {
-            return value.toUpperCase();
-        });
+        return Object.keys(obj);
     }
 
     toggle() {

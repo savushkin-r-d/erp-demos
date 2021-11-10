@@ -1,24 +1,24 @@
 <div *ngIf="isLoaded">
     <p [ngClass]="'tableNameText'">{{tableName}} is here!</p>
     <div [class.hidden]="selectedRow < 0">
-        <div  [ngClass]="['crudButton', 'crudButtonsDiv']"><button (click)="deleteSelectedRow($event)">Delete</button></div>
+        <div [ngClass]="['crudButton', 'crudButtonsDiv']"><button (click)="deleteSelectedRow($event)">Delete</button>
+        </div>
         <div [ngClass]="['crudButton', 'crudButtonsDiv']"><button>Update</button></div>
         <div [ngClass]="'crudButton'"><button>Create</button></div>
     </div>
     <div [ngClass]="'fixedTableHeader'">
-        <table >
+        <table>
             <thead [ngClass]="'fixHeader'">
                 <tr>
-                    <th *ngFor="let column of columns">{{column}}</th>
+                    <th *ngFor="let column of columns">{{column.toUpperCase()}}</th>
                 </tr>
             </thead>
             <tbody [ngClass]="'overflowY'">
-                <tr (click)="raiseOnRowClick($event, rowId)"
-                    [class.highlighted]="this.selectedRow == rowId"
-                    [class.deleted]=""
-                    *ngFor="let dataRow of data; let rowId = index"
-                    [attr.id] = rowId>
-                    <td *ngFor="let dataValue of dataRow">{{dataValue}}</td>
+                <tr *ngFor="let dataRow of data; let rowId = index" (click)="raiseOnRowClick($event, rowId)"
+                    [class.highlighted]="this.selectedRow == rowId" [class.deleted]="" [attr.id]=rowId>
+                    <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
+                        {{dataValue}}
+                    </td>
                 </tr>
             </tbody>
         </table>
