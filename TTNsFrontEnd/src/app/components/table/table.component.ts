@@ -35,14 +35,17 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   createRecord(): void {
+    this.resetSelectedRow();
+    this.updateRowOff();
     this.createRowOn();
   }
 
-  cancelCreatingRecord() : void {
+  cancelCreatingRecord(): void {
     this.createRowOff();
   }
 
   updateRecord(): void {
+    this.createRowOff();
     this.updateRowOn();
   }
 
@@ -55,19 +58,19 @@ export class TableComponent implements OnInit, OnChanges {
     this.createRowOff();
   }
 
-  createRowOn() : void {
+  createRowOn(): void {
     this.createRow = true;
   }
 
-  createRowOff() : void {
+  createRowOff(): void {
     this.createRow = false;
   }
 
-  updateRowOn() : void {
+  updateRowOn(): void {
     this.updateRow = true;
   }
 
-  updateRowOff() : void {
+  updateRowOff(): void {
     this.updateRow = false;
   }
 
@@ -103,6 +106,11 @@ export class TableComponent implements OnInit, OnChanges {
     }
     else {
       this.selectedRow = rowId;
+    }
+
+    if (this.updateRow || this.createRow) {
+      this.cancelCreatingRecord();
+      this.cancelUpdatingRecord();
     }
 
     this.onRowClick.emit(rowId);
