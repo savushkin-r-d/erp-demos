@@ -99,20 +99,14 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   raiseOnRowClick(event: any, rowId: number): void {
-    var unselectRow = this.selectedRow == rowId;
-    if (unselectRow) {
-      this.resetSelectedRow();
-      return;
-    }
-    else {
-      this.selectedRow = rowId;
-    }
-
-    if (this.updateRow || this.createRow) {
+    var rowChanged = this.selectedRow != rowId;
+    var createOrEditRow = this.updateRow || this.createRow;
+    if (rowChanged && createOrEditRow) {
       this.cancelCreatingRecord();
       this.cancelUpdatingRecord();
     }
 
+    this.selectedRow = rowId;
     this.onRowClick.emit(rowId);
   }
 

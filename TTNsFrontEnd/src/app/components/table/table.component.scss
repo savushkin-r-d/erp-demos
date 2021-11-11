@@ -10,8 +10,8 @@ table {
 thead {
   th {
     margin: 0;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 5px;
+    padding-right: 5px;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     background: #afd792;
@@ -36,11 +36,11 @@ tbody {
   }
 
   td {
-    font-size: 13px;
     text-align: center;
+    font-size: 13px;
     margin: 0;
-    padding-right: 0.1rem;
-    padding-left: 0.1rem;
+    padding-left: 2px;
+    padding-right: 10px;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
   }
@@ -48,7 +48,7 @@ tbody {
 
 .fixedTableHeader {
   overflow-y: scroll;
-  height: 23rem;
+  height: 370px;
 
   thead th {
     position: sticky;
@@ -61,7 +61,7 @@ tbody {
 }
 
 .crudButton {
-  padding: 0.2rem;
+  padding: 4px;
 }
 
 .crudButtonsDiv {
@@ -70,5 +70,9 @@ tbody {
 
 .tableNameText {
   text-align: center;
-  margin: 0.5rem;
+  margin: 8px;
+}
+
+.input {
+  width: 100%;
 }

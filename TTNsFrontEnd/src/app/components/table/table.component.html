@@ -26,34 +26,34 @@
     <div [ngClass]="'fixedTableHeader'">
         <table>
             <thead [ngClass]="'fixHeader'">
-                <tr>
+                <tr (click)="resetSelectedRow()">
                     <th *ngFor="let column of columns">{{column.toUpperCase()}}</th>
                 </tr>
             </thead>
             <tbody [ngClass]="'overflowY'">
                 <tr *ngIf="createRow">
                     <td *ngFor="let columnName of columns" [attr.name]="columnName">
-                        <input type="text" *ngIf="!columnName.startsWith('f_')">
+                        <input [ngClass]="'input'" type="text" *ngIf="!columnName.startsWith('f_')">
                     </td>
                 </tr>
-                <tr *ngFor="let dataRow of data; let rowId = index" (click)="raiseOnRowClick($event, rowId)"
-                    [class.highlighted]="this.selectedRow == rowId" [class.deleted]="" [attr.id]=rowId>
+                <tr *ngFor="let dataRow of data; let rowId = index" (dblclick)="updateRecord()"
+                    (click)="raiseOnRowClick($event, rowId)" [class.highlighted]="this.selectedRow == rowId"
+                    [class.deleted]="" [attr.id]=rowId>
                     <ng-container *ngIf="this.selectedRow != rowId">
                         <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
                             {{dataValue}}
                         </td>
                     </ng-container>
                     <ng-container *ngIf="this.selectedRow == rowId">
-                        <ng-container *ngIf="!updateRow">
-                            <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
+                        <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
+                            <ng-container *ngIf="!updateRow">
                                 {{dataValue}}
-                            </td>
-                        </ng-container>
-                        <ng-container *ngIf="updateRow">
-                            <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
-                                <input type="text" value="{{dataValue}}" *ngIf="!columns[cellId].startsWith('f_')">
-                            </td>
-                        </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="updateRow">
+                                <input [ngClass]="'input'" type="text" value="{{dataValue}}"
+                                    *ngIf="!columns[cellId].startsWith('f_')">
+                            </ng-container>
+                        </td>
                     </ng-container>
                 </tr>
             </tbody>
