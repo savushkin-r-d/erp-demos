@@ -1,10 +1,27 @@
 <div *ngIf="isLoaded">
     <p [ngClass]="'tableNameText'">{{tableName}} is here!</p>
-    <div [class.hidden]="selectedRow < 0">
-        <div [ngClass]="['crudButton', 'crudButtonsDiv']"><button (click)="deleteSelectedRow($event)">Delete</button>
+    <div>
+        <div *ngIf="createRow == false" [class.crudButtonsDiv]="selectedRow >= 0" [ngClass]="['crudButton']">
+            <button (click)="createRecord()">Create</button>
         </div>
-        <div [ngClass]="['crudButton', 'crudButtonsDiv']"><button>Update</button></div>
-        <div [ngClass]="'crudButton'"><button>Create</button></div>
+        <div *ngIf="createRow == true" [class.crudButtonsDiv]="selectedRow >= 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+            <button (click)="saveRecord()">Save</button>
+        </div>
+        <div *ngIf="createRow == true" [class.crudButtonsDiv]="selectedRow >= 0" [ngClass]="'crudButton'">
+            <button (click)="cancelCreatingRecord()">Cancel</button>
+        </div>
+        <div *ngIf="updateRow == false" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+            <button (click)="updateRecord()">Update</button>
+        </div>
+        <div *ngIf="updateRow == true" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+            <button (click)="saveRecord()">Save</button>
+        </div>
+        <div *ngIf="updateRow == true" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+            <button (click)="cancelUpdatingRecord()">Cancel</button>
+        </div>
+        <div [class.hidden]="selectedRow < 0" [ngClass]="['crudButton']">
+            <button (click)="deleteSelectedRow($event)">Delete</button>
+        </div>
     </div>
     <div [ngClass]="'fixedTableHeader'">
         <table>

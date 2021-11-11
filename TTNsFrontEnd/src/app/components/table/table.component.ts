@@ -18,6 +18,8 @@ export class TableComponent implements OnInit, OnChanges {
   showDeleted: boolean;
   isLoaded: boolean;
   selectedRow: number;
+  updateRow: boolean;
+  createRow: boolean;
 
   constructor() {
     this.columns = [];
@@ -28,13 +30,52 @@ export class TableComponent implements OnInit, OnChanges {
     this.onChangedToggle = new EventEmitter();
     this.onRowDelete = new EventEmitter();
     this.selectedRow = StaticHelper.resetRowId;
+    this.updateRow = false;
+    this.createRow = false;
+  }
+
+  createRecord(): void {
+    this.createRowOn();
+  }
+
+  cancelCreatingRecord() : void {
+    this.createRowOff();
+  }
+
+  updateRecord(): void {
+    this.updateRowOn();
+  }
+
+  cancelUpdatingRecord(): void {
+    this.updateRowOff();
+  }
+
+  saveRecord(): void {
+    this.updateRowOff();
+    this.createRowOff();
+  }
+
+  createRowOn() : void {
+    this.createRow = true;
+  }
+
+  createRowOff() : void {
+    this.createRow = false;
+  }
+
+  updateRowOn() : void {
+    this.updateRow = true;
+  }
+
+  updateRowOff() : void {
+    this.updateRow = false;
   }
 
   resetSelectedRow(): void {
     this.selectedRow = StaticHelper.resetRowId;
   }
 
-  toggle(): void {
+  showDeletedRowsRadioButton(): void {
     this.showDeleted = !this.showDeleted;
     this.onChangedToggle.emit(this.showDeleted);
   }
