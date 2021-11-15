@@ -1,6 +1,7 @@
 import { TableService } from "../services/table.service";
 import { BaseTable } from "./baseTable";
 import { StaticHelper } from "./staticHelper";
+import { ZttnTableViewModel } from "./viewModels/zttnTableViewModel";
 
 export class ZttnTable extends BaseTable {
     constructor(tableServiceDef: TableService) {
@@ -12,6 +13,7 @@ export class ZttnTable extends BaseTable {
         this._tableService.getZttns(this._showDeleted).subscribe({
             next: data => {
                 this.initTableFromResponse(data);
+                this._typeSpecificData = data;
             },
             error: error => {
                 console.log(error);
@@ -42,7 +44,7 @@ export class ZttnTable extends BaseTable {
             var indexOfFId = this._columns.indexOf("f_ID");
             var fId = row[indexOfFId];
             this._tableService.removeFromZttnByFId(fId).subscribe({
-                next: data => {
+                next: () => {
                     this._data.splice(rowId, 1);
                 },
                 error: error => {
@@ -50,5 +52,30 @@ export class ZttnTable extends BaseTable {
                 }
             });
         }
+    }
+
+    updateZttn(event: any): void {
+        var data = event.data;
+        var rowId = event.rowId;
+        var zttn = this.generateObjectAsAny(this._typeSpecificData[rowId], data);
+        this._tableService.updateZttn(zttn).subscribe({
+            next: receivedData => {
+                this._typeSpecificData[rowId] = receivedData;
+                this._data[rowId] = Object.values(receivedData);
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
+    }
+
+    private generateObjectAsAny(typeSpecificObject: any, data: any): any {
+        var objAsAny = typeSpecificObject;
+        for (var i = 0; i < this._columns.length; i++) {
+            var columnName = this._columns[i];
+            objAsAny[columnName] = data[i];
+        }
+
+        return objAsAny;
     }
 }

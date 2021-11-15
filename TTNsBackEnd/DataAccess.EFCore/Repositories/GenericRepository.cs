@@ -47,7 +47,7 @@ namespace DataAccess.EFCore.Repositories
             }
         }
 
-        public async Task<T> GetByFId(int id)
+        public async Task<T> GetByFId(long id)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.F_ID == id);
         }

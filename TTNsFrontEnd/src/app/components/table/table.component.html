@@ -1,25 +1,25 @@
 <div *ngIf="isLoaded">
     <p [ngClass]="'tableNameText'">{{tableName}} is here!</p>
     <div>
-        <div *ngIf="!createRow" [class.crudButtonsDiv]="selectedRow >= 0" [ngClass]="['crudButton']">
+        <div *ngIf="!createRow" [class.crudButtonsDiv]="selectedRowId >= 0" [ngClass]="['crudButton']">
             <button (click)="createRecord()">Create</button>
         </div>
         <div *ngIf="createRow" [ngClass]="['crudButton', 'crudButtonsDiv']">
             <button (click)="saveRecord()">Save</button>
         </div>
-        <div *ngIf="createRow" [class.crudButtonsDiv]="selectedRow >= 0" [ngClass]="'crudButton'">
+        <div *ngIf="createRow" [class.crudButtonsDiv]="selectedRowId >= 0" [ngClass]="'crudButton'">
             <button (click)="cancelCreatingRecord()">Cancel</button>
         </div>
-        <div *ngIf="!updateRow" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+        <div *ngIf="!updateRow" [class.hidden]="selectedRowId < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
             <button (click)="updateRecord()">Update</button>
         </div>
-        <div *ngIf="updateRow" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+        <div *ngIf="updateRow" [class.hidden]="selectedRowId < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
             <button (click)="saveRecord()">Save</button>
         </div>
-        <div *ngIf="updateRow" [class.hidden]="selectedRow < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
+        <div *ngIf="updateRow" [class.hidden]="selectedRowId < 0" [ngClass]="['crudButton', 'crudButtonsDiv']">
             <button (click)="cancelUpdatingRecord()">Cancel</button>
         </div>
-        <div [class.hidden]="selectedRow < 0" [ngClass]="['crudButton']">
+        <div [class.hidden]="selectedRowId < 0" [ngClass]="['crudButton']">
             <button (click)="deleteSelectedRow($event)">Delete</button>
         </div>
     </div>
@@ -37,21 +37,21 @@
                     </td>
                 </tr>
                 <tr *ngFor="let dataRow of data; let rowId = index" (dblclick)="updateRecord()"
-                    (click)="raiseOnRowClick($event, rowId)" [class.highlighted]="this.selectedRow == rowId"
+                    (click)="raiseOnRowClick($event, rowId)" [class.highlighted]="this.selectedRowId == rowId"
                     [class.deleted]="" [attr.id]=rowId>
-                    <ng-container *ngIf="this.selectedRow != rowId">
+                    <ng-container *ngIf="this.selectedRowId != rowId">
                         <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
                             {{dataValue}}
                         </td>
                     </ng-container>
-                    <ng-container *ngIf="this.selectedRow == rowId">
+                    <ng-container *ngIf="this.selectedRowId == rowId">
                         <td *ngFor="let dataValue of dataRow; let cellId = index" [attr.name]="columns[cellId]">
                             <ng-container *ngIf="!updateRow">
                                 {{dataValue}}
                             </ng-container>
                             <ng-container *ngIf="updateRow">
-                                <input [ngClass]="'input'" type="text" value="{{dataValue}}"
-                                    *ngIf="!columns[cellId].startsWith('f_')">
+                                <input [value]="updatingRow[cellId]" (keyup)="valueChanged($event, cellId)"
+                                    [ngClass]="'input'" type="text" *ngIf="!columns[cellId].startsWith('f_')">
                             </ng-container>
                         </td>
                     </ng-container>

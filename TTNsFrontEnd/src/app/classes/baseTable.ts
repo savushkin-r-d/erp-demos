@@ -6,6 +6,7 @@ export class BaseTable {
     _tableName: string;
     _tableService: TableService;
     protected _showDeleted: boolean;
+    protected _typeSpecificData: any[];
 
     constructor(tableService: TableService) {
         this._columns = [];
@@ -13,6 +14,7 @@ export class BaseTable {
         this._tableName = "";
         this._tableService = tableService;
         this._showDeleted = false;
+        this._typeSpecificData = [];
     }
 
     initTableFromResponse(response: any[]): void {

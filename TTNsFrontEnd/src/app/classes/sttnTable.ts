@@ -15,6 +15,7 @@ export class SttnTable extends BaseTable {
         this._tableService.getSttnsBySysn(sysn, this._showDeleted).subscribe({
             next: data => {
                 this.initTableFromResponse(data);
+                this._typeSpecificData = data;
                 this._loadedSysn = sysn;
             },
             error: error => {
@@ -40,5 +41,31 @@ export class SttnTable extends BaseTable {
                 }
             });
         }
+    }
+
+    updateSttn(event: any) : void {
+        var data = event.data;
+        var rowId = event.rowId;
+        var sttn = this.generateObjectAsAny(this._typeSpecificData[rowId], data);
+        this._tableService.updateSttn(sttn).subscribe({
+            next: receivedData => {
+                this._typeSpecificData[rowId] = receivedData;
+                this._data[rowId] = Object.values(receivedData);
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
+    }
+
+    private generateObjectAsAny(typeSpecificObject: any, data: any): any {
+        var objAsAny = typeSpecificObject;
+        // 1 - skipped sysn first column
+        for (var i = 1; i < this._columns.length; i++) {
+            var columnName = this._columns[i];
+            objAsAny[columnName] = data[i];
+        }
+
+        return objAsAny;
     }
 }

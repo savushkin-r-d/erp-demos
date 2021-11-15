@@ -1,6 +1,6 @@
 import { BaseTableViewModel } from "./baseTableViewModel";
 
-export interface ZttnTableViewModel extends BaseTableViewModel{
+export class ZttnTableViewModel extends BaseTableViewModel {
     SYSN: number | undefined;
     TD: number | undefined;
     ND: number | undefined;

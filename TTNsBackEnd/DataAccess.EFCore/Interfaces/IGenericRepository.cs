@@ -5,7 +5,7 @@ namespace DataAccess.EFCore.Interfaces
 {
     public interface IGenericRepository<T> where T : EntityBase
     {
-        Task<T> GetByFId(int id);
+        Task<T> GetByFId(long id);
 
         Task<IEnumerable<T>> GetAll(bool includeDeleted = false);
 

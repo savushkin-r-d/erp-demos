@@ -132,8 +132,6 @@ namespace API.DTO
 
         public string CR_USER { get; set; }
 
-        public IEnumerable<SttnDTO> Sttns { get; set; }
-
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ZttnDTO, Zttn>();

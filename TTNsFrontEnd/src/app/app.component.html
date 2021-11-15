@@ -4,12 +4,14 @@
 <app-table
     (onRowClick)="loadSttnsByZttnSysn($event)"
     (onRowDelete)="zttn.removeByRowId($event)"
+    (onRowUpdate)="zttn.updateZttn($event)"
     [tableName]="zttn._tableName"
     [data]="zttn._data"
     [columns]="zttn._columns">
 </app-table>
 <app-table
     (onRowDelete)="sttn.removeByRowId($event)"
+    (onRowUpdate)="sttn.updateSttn($event)"
     [tableName]="sttn._tableName"
     [data]="sttn._data"
     [columns]="sttn._columns">

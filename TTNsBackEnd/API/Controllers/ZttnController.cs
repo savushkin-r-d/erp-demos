@@ -44,8 +44,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("get-by-f-id/{fId:int}")]
-        public async Task<ActionResult<ZttnDTO>> GetZttnByFId(int fId)
+        [HttpGet("get-by-f-id/{fId:long}")]
+        public async Task<ActionResult<ZttnDTO>> GetZttnByFId(long fId)
         {
             try
             {
@@ -104,14 +104,17 @@ namespace API.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult> UpdateZttn(ZttnDTO updated)
+        public async Task<ActionResult<ZttnDTO>> UpdateZttn(ZttnDTO updated)
         {
             try
             {
                 var mappedZttn = _mapper.Map<Zttn>(updated);
                 _unitOfWork.ZTTNs.Update(mappedZttn);
                 await _unitOfWork.SaveAsync();
-                return NoContent();
+
+                var refreshedEntity = await _unitOfWork.ZTTNs.GetByFId(updated.F_ID);
+                var refreshedEntityDTO = _mapper.Map<ZttnDTO>(refreshedEntity);
+                return Ok(refreshedEntityDTO);
             }
             catch (Exception e)
             {
@@ -125,13 +128,14 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("delete/{fId:int}")]
-        public async Task<ActionResult> DeleteZttn(int fId)
+        [HttpDelete("delete/{fId:long}")]
+        public async Task<ActionResult> DeleteZttn(long fId)
         {
             try
             {
                 var entity = await _unitOfWork.ZTTNs.GetByFId(fId);
-                if (entity != null && entity.F_ID != 0)
+                bool entityExists = entity != null && entity.F_ID != 0;
+                if (entityExists)
                 {
                     _unitOfWork.ZTTNs.Remove(entity);
                     await _unitOfWork.STTNs.RemoveBySysn((int)entity.SYSN);

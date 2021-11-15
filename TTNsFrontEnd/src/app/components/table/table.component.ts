@@ -13,13 +13,16 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() data!: any[];
   @Output() onRowClick: EventEmitter<number>;
   @Output() onChangedToggle: EventEmitter<boolean>;
-  @Output() onRowDelete: EventEmitter<number>
+  @Output() onRowDelete: EventEmitter<number>;
+  @Output() onRowCreate: EventEmitter<any>;
+  @Output() onRowUpdate: EventEmitter<any>;
 
   showDeleted: boolean;
   isLoaded: boolean;
-  selectedRow: number;
+  selectedRowId: number;
   updateRow: boolean;
   createRow: boolean;
+  updatingRow: any;
 
   constructor() {
     this.columns = [];
@@ -29,9 +32,16 @@ export class TableComponent implements OnInit, OnChanges {
     this.onRowClick = new EventEmitter();
     this.onChangedToggle = new EventEmitter();
     this.onRowDelete = new EventEmitter();
-    this.selectedRow = StaticHelper.resetRowId;
+    this.selectedRowId = StaticHelper.resetRowId;
     this.updateRow = false;
     this.createRow = false;
+    this.onRowCreate = new EventEmitter();
+    this.onRowUpdate = new EventEmitter();
+    this.updatingRow = [];
+  }
+
+  valueChanged(event: any, cellId: number) {
+    this.updatingRow[cellId] = event.target.value;
   }
 
   createRecord(): void {
@@ -54,6 +64,13 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   saveRecord(): void {
+    if (this.selectedRowId != -1) {
+      this.onRowUpdate.emit({ data: this.updatingRow, rowId: this.selectedRowId });
+    }
+    else {
+      this.onRowCreate.emit();
+    }
+
     this.updateRowOff();
     this.createRowOff();
   }
@@ -68,14 +85,16 @@ export class TableComponent implements OnInit, OnChanges {
 
   updateRowOn(): void {
     this.updateRow = true;
+    this.updatingRow = Object.assign(this.updatingRow, this.data[this.selectedRowId]);
   }
 
   updateRowOff(): void {
     this.updateRow = false;
+    this.updatingRow = [];
   }
 
   resetSelectedRow(): void {
-    this.selectedRow = StaticHelper.resetRowId;
+    this.selectedRowId = StaticHelper.resetRowId;
   }
 
   showDeletedRowsRadioButton(): void {
@@ -99,21 +118,21 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   raiseOnRowClick(event: any, rowId: number): void {
-    var rowChanged = this.selectedRow != rowId;
+    var rowChanged = this.selectedRowId != rowId;
     var createOrEditRow = this.updateRow || this.createRow;
     if (rowChanged && createOrEditRow) {
       this.cancelCreatingRecord();
       this.cancelUpdatingRecord();
     }
 
-    this.selectedRow = rowId;
+    this.selectedRowId = rowId;
     this.onRowClick.emit(rowId);
   }
 
   deleteSelectedRow(event: any) {
-    var rowSelected = this.selectedRow > StaticHelper.resetRowId;
+    var rowSelected = this.selectedRowId > StaticHelper.resetRowId;
     if (rowSelected) {
-      this.onRowDelete.emit(this.selectedRow);
+      this.onRowDelete.emit(this.selectedRowId);
       this.resetSelectedRow();
     }
   }

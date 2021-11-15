@@ -44,8 +44,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("get-by-f-id/{fId:int}")]
-        public async Task<ActionResult<SttnDTO>> GetSttnByFId(int fId)
+        [HttpGet("get-by-f-id/{fId:long}")]
+        public async Task<ActionResult<SttnDTO>> GetSttnByFId(long fId)
         {
             try
             {
@@ -139,7 +139,10 @@ namespace API.Controllers
                 var mappedSttn = _mapper.Map<Sttn>(updated);
                 _unitOfWork.STTNs.Update(mappedSttn);
                 await _unitOfWork.SaveAsync();
-                return NoContent();
+
+                var refreshedEntity = await _unitOfWork.STTNs.GetByFId(updated.F_ID);
+                var refreshedEntityDTO = _mapper.Map<SttnDTO>(refreshedEntity);
+                return Ok(refreshedEntityDTO);
             }
             catch (Exception e)
             {
@@ -153,8 +156,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("delete/{fId:int}")]
-        public async Task<ActionResult> DeleteSttn(int fId)
+        [HttpDelete("delete/{fId:long}")]
+        public async Task<ActionResult> DeleteSttn(long fId)
         {
             try
             {

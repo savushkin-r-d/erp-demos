@@ -1,4 +1,4 @@
-export interface BaseTableViewModel {
+export abstract class BaseTableViewModel {
     F_GUID: string | undefined;
     F_ID: number | undefined;
     F_TM: string | undefined;
