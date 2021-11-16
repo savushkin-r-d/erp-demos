@@ -1,7 +1,7 @@
 import { TableService } from "../services/table.service";
 import { BaseTable } from "./baseTable";
+import { ZttnTableCreateModel } from "./models/zttnTableCreateModel";
 import { StaticHelper } from "./staticHelper";
-import { ZttnTableViewModel } from "./viewModels/zttnTableViewModel";
 
 export class ZttnTable extends BaseTable {
     constructor(tableServiceDef: TableService) {
@@ -36,7 +36,7 @@ export class ZttnTable extends BaseTable {
         }
     }
 
-    removeByRowId(event: any): void {
+    removeByFId(event: any): void {
         var rowId = event;
         var correctRowId = rowId >= StaticHelper.minRowId;
         if (correctRowId) {
@@ -54,10 +54,10 @@ export class ZttnTable extends BaseTable {
         }
     }
 
-    updateZttn(event: any): void {
+    update(event: any): void {
         var data = event.data;
         var rowId = event.rowId;
-        var zttn = this.generateObjectAsAny(this._typeSpecificData[rowId], data);
+        var zttn = this.generateViewModelObjectAsAny(this._typeSpecificData[rowId], data);
         this._tableService.updateZttn(zttn).subscribe({
             next: receivedData => {
                 this._typeSpecificData[rowId] = receivedData;
@@ -69,7 +69,7 @@ export class ZttnTable extends BaseTable {
         });
     }
 
-    private generateObjectAsAny(typeSpecificObject: any, data: any): any {
+    private generateViewModelObjectAsAny(typeSpecificObject: any, data: any): any {
         var objAsAny = typeSpecificObject;
         for (var i = 0; i < this._columns.length; i++) {
             var columnName = this._columns[i];
@@ -77,5 +77,25 @@ export class ZttnTable extends BaseTable {
         }
 
         return objAsAny;
+    }
+
+    create(event: any): void {
+        var zttn: { [key: string]: [value: string] } = {};
+        var data = event.data;
+        for (var i = 0; i < this._columns.length; i++) {
+            if (data[i] != undefined) {
+                var columnName = this._columns[i];
+                zttn[columnName] = data[i];
+            }
+        }
+
+        this._tableService.createZttn(zttn).subscribe({
+            next: receivedData => {
+                this._data.unshift(Object.values(receivedData));
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
     }
 }

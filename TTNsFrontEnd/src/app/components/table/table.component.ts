@@ -23,6 +23,7 @@ export class TableComponent implements OnInit, OnChanges {
   updateRow: boolean;
   createRow: boolean;
   updatingRow: any;
+  creatingRow: any;
 
   constructor() {
     this.columns = [];
@@ -38,10 +39,15 @@ export class TableComponent implements OnInit, OnChanges {
     this.onRowCreate = new EventEmitter();
     this.onRowUpdate = new EventEmitter();
     this.updatingRow = [];
+    this.creatingRow = [];
   }
 
-  valueChanged(event: any, cellId: number) {
+  updatingRowValueChanged(event: any, cellId: number) {
     this.updatingRow[cellId] = event.target.value;
+  }
+
+  creatingRowValueChanged(event: any, cellId: number) {
+    this.creatingRow[cellId] = event.target.value;
   }
 
   createRecord(): void {
@@ -68,7 +74,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.onRowUpdate.emit({ data: this.updatingRow, rowId: this.selectedRowId });
     }
     else {
-      this.onRowCreate.emit();
+      this.onRowCreate.emit({ data: this.creatingRow });
     }
 
     this.updateRowOff();
@@ -77,10 +83,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   createRowOn(): void {
     this.createRow = true;
+    this.creatingRow = [];
   }
 
   createRowOff(): void {
     this.createRow = false;
+    this.creatingRow = [];
   }
 
   updateRowOn(): void {
@@ -113,7 +121,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   checkDataLoading(columns: string[], data: any[]): void {
-    var tableIsNotEmpty = columns.length > 0 && data.length > 0;
+    var tableIsNotEmpty = columns.length > 0 && data.length >= 0;
     this.isLoaded = tableIsNotEmpty;;
   }
 

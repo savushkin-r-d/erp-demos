@@ -1,4 +1,4 @@
-import { BaseTableViewModel } from "../viewModels/baseTableViewModel";
+import { BaseTableViewModel } from "../models/baseTableViewModel";
 
 export class SttnTableUpdateModel extends BaseTableViewModel {
     KMC: string | undefined;

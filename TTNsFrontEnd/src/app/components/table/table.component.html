@@ -32,8 +32,9 @@
             </thead>
             <tbody [ngClass]="'overflowY'">
                 <tr *ngIf="createRow">
-                    <td *ngFor="let columnName of columns" [attr.name]="columnName">
-                        <input [ngClass]="'input'" type="text" *ngIf="!columnName.startsWith('f_')">
+                    <td *ngFor="let columnName of columns; let cellId = index" [attr.name]="columnName">
+                        <input [ngClass]="'input'" (keyup)="creatingRowValueChanged($event, cellId)"
+                            type="text" *ngIf="!columnName.startsWith('f_')">
                     </td>
                 </tr>
                 <tr *ngFor="let dataRow of data; let rowId = index" (dblclick)="updateRecord()"
@@ -50,7 +51,7 @@
                                 {{dataValue}}
                             </ng-container>
                             <ng-container *ngIf="updateRow">
-                                <input [value]="updatingRow[cellId]" (keyup)="valueChanged($event, cellId)"
+                                <input [value]="updatingRow[cellId]" (keyup)="updatingRowValueChanged($event, cellId)"
                                     [ngClass]="'input'" type="text" *ngIf="!columns[cellId].startsWith('f_')">
                             </ng-container>
                         </td>

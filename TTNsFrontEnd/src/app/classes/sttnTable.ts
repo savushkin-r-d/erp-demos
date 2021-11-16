@@ -3,7 +3,7 @@ import { BaseTable } from "./baseTable";
 import { StaticHelper } from 'src/app/classes/staticHelper';
 
 export class SttnTable extends BaseTable {
-    _loadedSysn : number;
+    _loadedSysn: number;
 
     constructor(private tableServiceDef: TableService) {
         super(tableServiceDef);
@@ -25,12 +25,12 @@ export class SttnTable extends BaseTable {
         });
     }
 
-    removeByRowId(event: any): void {
+    removeByFId(event: any): void {
         var rowId = event;
         var correctRowId = rowId >= StaticHelper.minRowId;
         if (correctRowId) {
             var row = this._data[rowId];
-            var indexOfFId = this._columns.indexOf("F_ID");
+            var indexOfFId = this._columns.indexOf("f_ID");
             var fId = row[indexOfFId];
             this._tableService.removeFromSttnByFId(fId).subscribe({
                 next: data => {
@@ -43,10 +43,10 @@ export class SttnTable extends BaseTable {
         }
     }
 
-    updateSttn(event: any) : void {
+    update(event: any): void {
         var data = event.data;
         var rowId = event.rowId;
-        var sttn = this.generateObjectAsAny(this._typeSpecificData[rowId], data);
+        var sttn = this.generateViewModelObjectAsAny(this._typeSpecificData[rowId], data);
         this._tableService.updateSttn(sttn).subscribe({
             next: receivedData => {
                 this._typeSpecificData[rowId] = receivedData;
@@ -58,14 +58,34 @@ export class SttnTable extends BaseTable {
         });
     }
 
-    private generateObjectAsAny(typeSpecificObject: any, data: any): any {
+    private generateViewModelObjectAsAny(typeSpecificObject: any, data: any): any {
         var objAsAny = typeSpecificObject;
-        // 1 - skipped sysn first column
+        // 1 - skipped "sysn" first column, key
         for (var i = 1; i < this._columns.length; i++) {
             var columnName = this._columns[i];
             objAsAny[columnName] = data[i];
         }
 
         return objAsAny;
+    }
+
+    create(event: any): void {
+        var sttn: { [key: string]: [value: string] } = {};
+        var data = event.data;
+        for (var i = 0; i < this._columns.length; i++) {
+            if (data[i] != undefined) {
+                var columnName = this._columns[i];
+                sttn[columnName] = data[i];
+            }
+        }
+
+        this._tableService.createSttn(sttn).subscribe({
+            next: receivedData => {
+                this._data.unshift(Object.values(receivedData));
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
     }
 }

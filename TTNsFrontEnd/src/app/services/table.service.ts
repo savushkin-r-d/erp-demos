@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ZttnTableViewModel } from '../classes/viewModels/zttnTableViewModel';
-import { SttnTableViewModel } from '../classes/viewModels/sttnTableViewModel';
-import { SttnTableUpdateModel } from '../classes/updateModels/sttnTableUpdateModel';
+import { ZttnTableCreateModel } from '../classes/models/zttnTableCreateModel';
+import { SttnTableCreateModel } from '../classes/models/sttnTableCreateModel';
+import { ZttnTableViewModel } from '../classes/models/zttnTableViewModel';
+import { SttnTableViewModel } from '../classes/models/sttnTableViewModel';
+import { SttnTableUpdateModel } from '../classes/models/sttnTableUpdateModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class TableService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-type' : 'application/json',
+      'Content-type': 'application/json',
     })
   }
 
@@ -55,6 +57,20 @@ export class TableService {
     var api = this.rest_api + "/sttn/update";
     var jsonData = JSON.stringify(sttn);
     var data = this.httpClient.put<SttnTableViewModel>(api, jsonData, this.httpOptions);
+    return data;
+  }
+
+  createZttn(zttnCreateModel: any): Observable<ZttnTableViewModel> {
+    var api = this.rest_api + "/zttn/create";
+    var jsonData = JSON.stringify(zttnCreateModel);
+    var data = this.httpClient.post<ZttnTableViewModel>(api, jsonData, this.httpOptions);
+    return data;
+  }
+
+  createSttn(sttnCreateModel: any): Observable<SttnTableViewModel> {
+    var api = this.rest_api + "/sttn/create";
+    var jsonData = JSON.stringify(sttnCreateModel);
+    var data = this.httpClient.post<SttnTableViewModel>(api, jsonData, this.httpOptions);
     return data;
   }
 }
