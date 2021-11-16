@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ZttnTableCreateModel } from '../classes/models/zttnTableCreateModel';
-import { SttnTableCreateModel } from '../classes/models/sttnTableCreateModel';
 import { ZttnTableViewModel } from '../classes/models/zttnTableViewModel';
 import { SttnTableViewModel } from '../classes/models/sttnTableViewModel';
 import { SttnTableUpdateModel } from '../classes/models/sttnTableUpdateModel';
@@ -60,6 +58,7 @@ export class TableService {
     return data;
   }
 
+    // Input argument is 'any', but should be ZttnTableCreateModel
   createZttn(zttnCreateModel: any): Observable<ZttnTableViewModel> {
     var api = this.rest_api + "/zttn/create";
     var jsonData = JSON.stringify(zttnCreateModel);
@@ -67,6 +66,7 @@ export class TableService {
     return data;
   }
 
+  // Input argument is 'any', but should be SttnTableCreateModel
   createSttn(sttnCreateModel: any): Observable<SttnTableViewModel> {
     var api = this.rest_api + "/sttn/create";
     var jsonData = JSON.stringify(sttnCreateModel);

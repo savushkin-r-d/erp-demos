@@ -1,6 +1,5 @@
 import { TableService } from "../services/table.service";
 import { BaseTable } from "./baseTable";
-import { ZttnTableCreateModel } from "./models/zttnTableCreateModel";
 import { StaticHelper } from "./staticHelper";
 
 export class ZttnTable extends BaseTable {
